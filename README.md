@@ -1,16 +1,17 @@
-# circular_slider
+# Flutter ~ Auto Scroll Circular Image Slider
 
-A new Flutter application.
+A Simple example of Auto Scroll Circular Image Slider for Flutter
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+1. Image Slider using PageView
+2. Circular and infinite scroll
+3. Auto Scroll
+4. No extra dependency needed
 
-A few resources to get you started if this is your first Flutter project:
+## Auto Scroll
+![Image of AutoScroll](https://github.com/Iftekhar29/flutter_circular_auto_scroll_slider/blob/master/assets/images/auto_scroll.gif)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Swipe Left and Right
+![Image of AutoScroll](https://github.com/Iftekhar29/flutter_circular_auto_scroll_slider/blob/master/assets/images/swipe_left_right.gif)
