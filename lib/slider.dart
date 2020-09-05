@@ -3,13 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CircularSlider extends StatefulWidget {
-
   @override
   _CircularSliderState createState() => _CircularSliderState();
 }
 
 class _CircularSliderState extends State<CircularSlider> {
   PageController _pageController;
+  final int maxCount = 500;
+  int currentIndex = 250;
+
+
+  List<bool> myIndicators=[
+    false,
+    false,
+    false,
+    false,
+  ];
 
   List<String> myImages = [
     'assets/images/slider1.jpg',
@@ -18,22 +27,20 @@ class _CircularSliderState extends State<CircularSlider> {
     'assets/images/slider4.jpg',
   ];
 
-  int i = 250;
-
   @override
   void initState() {
     super.initState();
     Timer.periodic(Duration(seconds: 2), (Timer timer) {
-      if (i == 60) {
-        _pageController.jumpToPage(i);
-        i++;
-      } else if (i < 120) {
-        _pageController.animateToPage(i,
+      if (currentIndex == maxCount / 2) {
+        _pageController.jumpToPage(currentIndex);
+        currentIndex++;
+      } else if (currentIndex < maxCount) {
+        _pageController.animateToPage(currentIndex,
             duration: Duration(milliseconds: 100), curve: Curves.easeInCirc);
-        i++;
+        currentIndex++;
       } else {
-        i = 60;
-        _pageController.jumpToPage(i);
+        currentIndex = (maxCount / 2).toInt();
+        _pageController.jumpToPage(currentIndex);
       }
     });
   }
@@ -42,31 +49,71 @@ class _CircularSliderState extends State<CircularSlider> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Circulat Slider"),
+        title: Text("My Circular Slider"),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.25,
-        child: PageView.builder(
-          pageSnapping: true,
-          controller: _pageController = PageController(initialPage: 0),
-          allowImplicitScrolling: true,
-          onPageChanged: (value) {
-            i = value;
-          },
-          itemCount: 500,
-          itemBuilder: (ctx, index) => Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
-            child: Container(
-              margin: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.red,
-                image: DecorationImage(
-                    image: AssetImage(myImages[index % myImages.length]),
-                    fit: BoxFit.cover),
-                // boxShadow: [BoxShadow(blurRadius: 0,spreadRadius: 1,offset: Offset(2, 2),color: Colors.black26)]
+        child: Container(
+          margin: EdgeInsets.all(8),
+          child: GridTile(
+            child: PageView.builder(
+              pageSnapping: true,
+              controller: _pageController = PageController(initialPage: 0),
+              allowImplicitScrolling: true,
+              onPageChanged: (value) {
+                currentIndex = value;
+                setState(() {
+                  for(int i=0;i<myIndicators.length;i++){
+                    if(i==value%4)
+                      myIndicators[i]=true;
+                    else
+                      myIndicators[i]=false;
+                  }
+                });
+
+              },
+              itemCount: maxCount,
+              itemBuilder: (ctx, index) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.red,
+                  image: DecorationImage(
+                      image: AssetImage(myImages[index % myImages.length]),
+                      fit: BoxFit.cover),
+                  // boxShadow: [BoxShadow(blurRadius: 0,spreadRadius: 1,offset: Offset(2, 2),color: Colors.black26)]
+                ),
+              ),
+            ),
+            footer: GridTileBar(
+              backgroundColor: Colors.black54,
+              leading: null,
+              trailing: null,
+              title: Container(
+                alignment: Alignment.center,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: myImages.length,
+                    itemBuilder: (context, index) {
+                      return myIndicators[index]
+                          ? Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.asset(
+                                "assets/images/selected.png",
+                                width: 15,
+                                height: 15,
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.asset(
+                                "assets/images/unselected.png",
+                                width: 15,
+                                height: 15,
+                              ),
+                            );
+                    }),
               ),
             ),
           ),
