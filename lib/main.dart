@@ -6,6 +6,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  List<String> myImages = [
+    'assets/images/slider1.jpg',
+    'assets/images/slider2.jpg',
+    'assets/images/slider3.jpg',
+    'assets/images/slider4.jpg',
+  ];
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CircularSlider(),
+      home: CircularSlider(myImages),
     );
   }
 }

@@ -3,14 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CircularSlider extends StatefulWidget {
+  final List<String> myImages;
+
+  CircularSlider(this.myImages);
+
   @override
   _CircularSliderState createState() => _CircularSliderState();
 }
 
 class _CircularSliderState extends State<CircularSlider> {
   PageController _pageController;
-  final int maxCount = 500;
-  int currentIndex = 250;
+   int maxCount = 0;
+  int currentIndex = 0;
+
 
 
   List<bool> myIndicators=[
@@ -19,17 +24,16 @@ class _CircularSliderState extends State<CircularSlider> {
     false,
     false,
   ];
+  List<String> myImages;
 
-  List<String> myImages = [
-    'assets/images/slider1.jpg',
-    'assets/images/slider2.jpg',
-    'assets/images/slider3.jpg',
-    'assets/images/slider4.jpg',
-  ];
 
   @override
   void initState() {
     super.initState();
+ myImages=widget.myImages;
+ maxCount=myImages.length*100;
+ currentIndex=(maxCount/2).toInt();
+
     Timer.periodic(Duration(seconds: 2), (Timer timer) {
       if (currentIndex == maxCount / 2) {
         _pageController.jumpToPage(currentIndex);
